@@ -57,7 +57,7 @@
     "featured_collection_HENLLh": {
       "type": "featured-collection",
       "settings": {
-        "collection": "",
+        "collection": "trisco",
         "products_to_show": 4,
         "title": "Featured collection",
         "heading_size": "h1",
