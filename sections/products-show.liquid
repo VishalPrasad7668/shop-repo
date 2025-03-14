@@ -1,7 +1,19 @@
+{%- if section.settings.title != blank -%}
+        <h2>
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
 {% schema %}
   {
     "name": "Products Show",
-    "settings": [],
+    "settings": [
+      {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "t:sections.featured-collection.settings.title.default",
+      "label": "t:sections.featured-collection.settings.title.label"
+    }
+    ],
     "presets": [
       {
         "name": "Products Show"
