@@ -1,4 +1,4 @@
-{%- if section.settings.title != blank -%}
+{% comment %} {%- if section.settings.title != blank -%}
   <h2>
     {{ section.settings.title }}
   </h2>
@@ -19,7 +19,50 @@
               </li>
             {%- endfor -%}
         {%- endif -%}
-      </ul>
+      </ul> {% endcomment %}
+{% if section.settings.collection.products_count > 0 %}
+  <div class="featured-collection">
+    {% for product in section.settings.collection.products limit: section.settings.limit %}
+      <div class="product-card">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.price | money }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No products found in this collection.</p>
+{% endif %}
+{% schema %}
+  {
+    "name": "Products Show",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Select Collection"
+      },
+      {
+        "type": "range",
+        "id": "limit",
+        "label": "Number of Products",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "default": 4
+      }
+    ],
+    "presets": [
+      {
+        "name": "Products Show",
+        "category": "Products"
+      }
+    ]
+  }
+{% endschema %}
+{% comment %}
 {% schema %}
   {
     "name": "Products Show",
@@ -62,3 +105,4 @@
     ]
   }
 {% endschema %}
+{% endcomment %}
