@@ -1,16 +1,11 @@
 <style>
-  .top-bar {
-            background-color: #f5f5f5;
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-        }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
             background-color: #fff;
+            position: relative;
         }
         .header .logo {
             font-size: 20px;
@@ -24,9 +19,15 @@
             color: #000;
             font-weight: bold;
         }
+        .header .center-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
 </style>
-<div class="top-bar">Find the ideal gift for your loved ones.</div>
 <div class="header">
-    <div class="logo">TISSO VISON</div>
-    <a href="#" class="choose-gift">CHOOSE GIFT →</a>
-</div>
+        <div class="logo">TISSO VISON</div>
+        <div class="center-text">Find the ideal gift for your loved ones.</div>
+        <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+    </div>
