@@ -1,3 +1,4 @@
+
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
     {% for product in section.settings.collection.products limit: section.settings.limit %}
@@ -7,7 +8,6 @@
 
           {% for block in section.blocks %}
             {% if block.settings.product == product.id %}
-              <!-- Only show the button if the product exists in the selected collection -->
               <button class="product-info-btn"
                 style="top: {{ block.settings.button_top }}%; left: {{ block.settings.button_left }}%;"
                 onclick="openPopup('{{ product.id }}')">+</button>
@@ -106,8 +106,6 @@
 {% else %}
   <p>No products found in this collection.</p>
 {% endif %}
-
-
 {% comment %} {%- if section.settings.title != blank -%}
   <h2>
     {{ section.settings.title }}
@@ -151,36 +149,36 @@
       }
     ],
     "blocks": [
-      {
-        "type": "product_button",
-        "name": "Product Button Position",
-        "settings": [
-          {
-            "type": "product",
-            "id": "product",
-            "label": "Select Product"
-          },
-          {
-            "type": "range",
-            "id": "button_top",
-            "label": "Button Top Position (%)",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "default": 10
-          },
-          {
-            "type": "range",
-            "id": "button_left",
-            "label": "Button Left Position (%)",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "default": 80
-          }
-        ]
-      }
-    ],
+    {
+      "type": "product_button",
+      "name": "Product Button Position",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "range",
+          "id": "button_top",
+          "label": "Button Top Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "button_left",
+          "label": "Button Left Position (%)",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 80
+        }
+      ]
+    }
+  ],
     "presets": [
       {
         "name": "Products Show",
