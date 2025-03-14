@@ -50,9 +50,22 @@
     },
     "products_show_pNWVaD": {
       "type": "products-show",
+      "blocks": {
+        "product_ekG3Xc": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "button_top": 68,
+            "button_left": 80
+          }
+        }
+      },
+      "block_order": [
+        "product_ekG3Xc"
+      ],
       "settings": {
-        "title": "",
-        "collection": "trisco"
+        "collection": "trisco",
+        "limit": 4
       }
     },
     "featured_collection_HENLLh": {
