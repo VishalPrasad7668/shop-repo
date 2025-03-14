@@ -4,9 +4,10 @@
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
-          
+
           {% for block in section.blocks %}
             {% if block.settings.product == product.id %}
+              <!-- Only show the button if the product exists in the selected collection -->
               <button class="product-info-btn"
                 style="top: {{ block.settings.button_top }}%; left: {{ block.settings.button_left }}%;"
                 onclick="openPopup('{{ product.id }}')">+</button>
@@ -105,6 +106,8 @@
 {% else %}
   <p>No products found in this collection.</p>
 {% endif %}
+
+
 {% comment %} {%- if section.settings.title != blank -%}
   <h2>
     {{ section.settings.title }}
