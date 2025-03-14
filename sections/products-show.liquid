@@ -13,6 +13,8 @@
             {% endif %}
           {% endfor %}
         </div>
+        <h3>{{ product.title }}</h3>
+        <p>{{ product.price | money }}</p>
       </div>
 
       <div id="popup-{{ product.id }}" class="product-popup">
@@ -100,9 +102,9 @@
       document.getElementById('popup-' + productId).style.display = 'none';
     }
   </script>
-
+{% else %}
+  <p>No products found in this collection.</p>
 {% endif %}
-
 {% comment %} {%- if section.settings.title != blank -%}
   <h2>
     {{ section.settings.title }}
@@ -147,7 +149,7 @@
     ],
     "blocks": [
       {
-        "type": "product",
+        "type": "product_button",
         "name": "Product Button Position",
         "settings": [
           {
