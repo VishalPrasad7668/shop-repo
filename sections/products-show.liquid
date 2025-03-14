@@ -32,8 +32,6 @@
       </div>
     {% endfor %}
   </div>
-{% else %}
-  <p>No products found in this collection.</p>
 {% endif %}
 {% schema %}
   {
@@ -43,15 +41,6 @@
         "type": "collection",
         "id": "collection",
         "label": "Select Collection"
-      },
-      {
-        "type": "range",
-        "id": "limit",
-        "label": "Number of Products",
-        "min": 2,
-        "max": 10,
-        "step": 1,
-        "default": 4
       }
     ],
     "presets": [
