@@ -47,9 +47,10 @@
 {% endschema %}
 {% for block in section.blocks %}
 <div class="hotspot-container">    
-        <img src="{{ block.featured_image | img_url: '1024x1024' }}" 
-             alt="{{ block.title }}" 
-             class="product-image">
+        <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" 
+     alt="{{ block.settings.product.title }}" 
+     class="product-image">
+
 
         {% if block.settings.product != blank %}
             <div class="hotspot" onclick="openPopup('{{ block.settings.product.id }}')" 
