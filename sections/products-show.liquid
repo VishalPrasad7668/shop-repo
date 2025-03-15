@@ -8,10 +8,62 @@
       "label": "Select Collection"
     },
     {
-      "type": "checkbox",
-      "id": "enable_cta",
-      "label": "Enable CTA Buttons",
-      "default": true
+      "type": "header",
+      "content": "Hotspot Positions (in %)"
+    },
+    {
+      "type": "range",
+      "id": "point_1_x",
+      "label": "Hotspot 1 - X Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "point_1_y",
+      "label": "Hotspot 1 - Y Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "point_2_x",
+      "label": "Hotspot 2 - X Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "point_2_y",
+      "label": "Hotspot 2 - Y Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "point_3_x",
+      "label": "Hotspot 3 - X Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "point_3_y",
+      "label": "Hotspot 3 - Y Position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 80
     }
   ],
   "presets": [
@@ -32,11 +84,7 @@
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" 
-               alt="{{ product.title }}" 
-               data-focal-x="{{ product.featured_image.aspect_ratio | times: 50 }}"
-               data-focal-y="50">
-          {% assign focal_point = product.featured_image.presentation.focal_point %}
-          Focal Point: {{ focal_point }}
+               alt="{{ product.title }}">
 
           
           {% if section.settings.enable_cta %}
