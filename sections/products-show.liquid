@@ -23,6 +23,9 @@
 }
 {% endschema %}
 
+
+
+
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
     {% for product in section.settings.collection.products %}
@@ -32,6 +35,11 @@
                alt="{{ product.title }}" 
                data-focal-x="{{ product.featured_image.aspect_ratio | times: 50 }}"
                data-focal-y="50">
+          {% assign focal_x = product.featured_image | image_focal_point | first %}
+          {% assign focal_y = product.featured_image | image_focal_point | last %}
+          
+          <p>Focal Point X: {{ focal_x }}</p>
+          <p>Focal Point Y: {{ focal_y }}</p>
           
           {% if section.settings.enable_cta %}
             <button id="cta_button_{{ product.id }}" class="product-info-btn"
