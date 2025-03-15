@@ -96,10 +96,11 @@
                                 </div>
                             </div>
 
+
                             <!-- Size Selector -->
                             <div class="size-selector">
                                 <label>Size</label>
-                                <select id="size-{{ block.settings.product.id }}" onchange="updateVariant('{{ block.settings.product.id }}')">
+                                <select id="size-{{ block.settings.product.id }}">
                                     <option selected disabled>Choose your size</option>
                                     {% assign size_options = "" %}
                                     {% for variant in block.settings.product.variants %}
@@ -117,7 +118,9 @@
                                 </select>
                             </div>
 
-                            <!-- Hidden Input for Variant ID -->
+                          
+                          
+                            <!-- Add to Cart Button -->
                             <form method="post" action="/cart/add">
                                 <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
                                 <button type="submit" class="add-to-cart">ADD TO CART →</button>
@@ -131,6 +134,42 @@
 </div>
 
 <style>
+/* Container for Image */
+.hotspot-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Product Image */
+.product-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hotspot Style */
+.hotspot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+}
+
 /* Popup Styles */
 .product-popup {
     display: none;
@@ -149,16 +188,21 @@
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 90%;
+    width: 80%;
     max-width: 450px;
     position: relative;
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Color Buttons */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Color Options */
 .color-options {
     display: flex;
     gap: 10px;
@@ -167,7 +211,7 @@
 
 .color-button {
     background: white;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     padding: 8px 15px;
     position: relative;
     cursor: pointer;
@@ -183,14 +227,22 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
-    background-color: inherit;
+    width: 4px; /* Width of the color indicator */
+    background-color: inherit; /* Initially matches button background */
 }
 
-.color-button.active {
-    background: black;
+.color-button.active, .color-button:hover {
     color: white;
+    background-color: black;
+    border-color: black;
 }
+
+/* Specific classes for each color for the indicator */
+.color-button.blue:before { background-color: blue; }
+.color-button.black:before { background-color: black; }
+.color-button.red:before { background-color: red; }
+.color-button.grey:before { background-color: grey; }
+.color-button.white:before { background-color: white; }
 
 /* Size Selector */
 .size-selector select {
@@ -229,25 +281,11 @@ function closePopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'none';
 }
 
-function selectColor(button, color, productId) {
-    document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    updateVariant(productId);
-}
+document.querySelectorAll('.color-button').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
 
-function updateVariant(productId) {
-    let selectedColor = document.querySelector('.color-button.active')?.innerText || null;
-    let selectedSize = document.getElementById('size-' + productId)?.value || null;
-
-    if (!selectedColor || !selectedSize) return;
-
-    let variants = {{ block.settings.product.variants | json }};
-
-    for (let i = 0; i < variants.length; i++) {
-        if (variants[i].option1 === selectedSize && variants[i].option2 === selectedColor) {
-            document.getElementById('variant-id-' + productId).value = variants[i].id;
-            break;
-        }
-    }
-}
 </script>
