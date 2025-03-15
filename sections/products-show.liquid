@@ -35,7 +35,7 @@
                alt="{{ product.title }}" 
                data-focal-x="{{ product.featured_image.aspect_ratio | times: 50 }}"
                data-focal-y="50">
-          {{ product.featured_image | json }}
+          {{ product.images | json }}
           
           {% if section.settings.enable_cta %}
             <button id="cta_button_{{ product.id }}" class="product-info-btn"
