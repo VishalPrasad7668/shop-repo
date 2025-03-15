@@ -39,7 +39,6 @@
         {
             "name": "Product Hotspots",
             "blocks": [
-                { "type": "hotspot" },
                 { "type": "hotspot" }
             ]
         }
@@ -48,6 +47,16 @@
 {% endschema %}
 
 <div class="hotspot-container">
+    {% assign first_product = section.blocks[0].settings.product %}
+
+    {% if first_product != blank %}
+        <img src="{{ first_product.featured_image | img_url: '1024x1024' }}" 
+             alt="{{ first_product.title }}" 
+             class="product-image">
+    {% else %}
+        <p>Please add a product hotspot.</p>
+    {% endif %}
+
     {% for block in section.blocks %}
         {% if block.settings.product != blank %}
             <div class="hotspot" 
@@ -66,6 +75,14 @@
     position: relative;
     display: inline-block;
     width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .hotspot {
