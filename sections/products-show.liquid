@@ -1,11 +1,10 @@
-
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
     {% for product in section.settings.collection.products limit: section.settings.limit %}
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
-
+          
           {% for block in section.blocks %}
             {% if block.settings.product == product.id %}
               <button class="product-info-btn"
@@ -148,37 +147,37 @@
         "default": 4
       }
     ],
-    "blocks": [
-    {
-      "type": "product_button",
-      "name": "Product Button Position",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Select Product"
-        },
-        {
-          "type": "range",
-          "id": "button_top",
-          "label": "Button Top Position (%)",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "default": 10
-        },
-        {
-          "type": "range",
-          "id": "button_left",
-          "label": "Button Left Position (%)",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "default": 80
-        }
-      ]
-    }
-  ],
+      "blocks": [
+      {
+        "type": "product_button",
+        "name": "Product Button Position",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Select Product"
+          },
+          {
+            "type": "range",
+            "id": "button_top",
+            "label": "Button Top Position (%)",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 10
+          },
+          {
+            "type": "range",
+            "id": "button_left",
+            "label": "Button Left Position (%)",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 80
+          }
+        ]
+      }
+    ],
     "presets": [
       {
         "name": "Products Show",
