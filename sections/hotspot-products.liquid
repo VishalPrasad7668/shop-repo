@@ -80,8 +80,18 @@
                             <div class="color-selector">
                                 <label>Color</label>
                                 <div class="color-options">
+                                    {% assign color_options = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        <button class="color-button" data-color="{{ variant.title | split: ' / ' | first }}">{{ variant.title | split: ' / ' | first }}</button>
+                                        {% unless color_options contains variant.option1 %}
+                                            {% assign color_options = color_options | append: variant.option1 | append: "," %}
+                                        {% endunless %}
+                                    {% endfor %}
+                                    {% assign color_options = color_options | split: "," %}
+                                    
+                                    {% for color in color_options %}
+                                        {% unless color == "" %}
+                                            <button class="color-button" data-color="{{ color }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
+                                        {% endunless %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -89,17 +99,27 @@
                             <!-- Size Selector -->
                             <div class="size-selector">
                                 <label>Size</label>
-                                <select>
+                                <select id="size-{{ block.settings.product.id }}">
                                     <option selected disabled>Choose your size</option>
+                                    {% assign size_options = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        <option value="{{ variant.id }}">{{ variant.title | split: ' / ' | last }}</option>
+                                        {% unless size_options contains variant.option2 %}
+                                            {% assign size_options = size_options | append: variant.option2 | append: "," %}
+                                        {% endunless %}
+                                    {% endfor %}
+                                    {% assign size_options = size_options | split: "," %}
+                                    
+                                    {% for size in size_options %}
+                                        {% unless size == "" %}
+                                            <option value="{{ size }}">{{ size }}</option>
+                                        {% endunless %}
                                     {% endfor %}
                                 </select>
                             </div>
 
                             <!-- Add to Cart Button -->
                             <form method="post" action="/cart/add">
-                                <input type="hidden" name="id" value="{{ block.settings.product.variants.first.id }}">
+                                <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
                                 <button type="submit" class="add-to-cart">ADD TO CART →</button>
                             </form>
                         </div>
@@ -111,7 +131,122 @@
 </div>
 
 <style>
-/* Rest of the styles unchanged */
+/* Container for Image */
+.hotspot-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Product Image */
+.product-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hotspot Style */
+.hotspot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+}
+
+/* Popup Styles */
+.product-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 450px;
+    position: relative;
+    text-align: left;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Color Options */
+.color-options {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.color-button {
+    background: white;
+    border: 1px solid black;
+    padding: 8px 15px;
+    cursor: pointer;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.color-button.active {
+    background: black;
+    color: white;
+}
+
+/* Size Selector */
+.size-selector select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+/* Add to Cart Button */
+.add-to-cart {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: black;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.add-to-cart:hover {
+    background: #333;
+}
 </style>
 
 <script>
@@ -121,5 +256,19 @@ function openPopup(productId) {
 
 function closePopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'none';
+}
+
+function selectColor(button, color, productId) {
+    document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    let sizeDropdown = document.getElementById('size-' + productId);
+    let variantInput = document.getElementById('variant-id-' + productId);
+    
+    sizeDropdown.addEventListener('change', function () {
+        let selectedSize = this.value;
+        let selectedVariant = document.querySelector(`[data-color="${color}"][value="${selectedSize}"]`);
+        variantInput.value = selectedVariant.getAttribute('data-variant-id');
+    });
 }
 </script>
