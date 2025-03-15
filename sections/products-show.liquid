@@ -12,10 +12,6 @@
       "id": "enable_cta",
       "label": "Enable CTA Buttons",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "CTA Button Positions"
     }
   ],
   "presets": [
@@ -30,15 +26,15 @@
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
     {% for product in section.settings.collection.products %}
-      {% assign top_setting_id = 'button_top_' | append: product.id %}
-      {% assign left_setting_id = 'button_left_' | append: product.id %}
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
           
-          {% if section.settings.enable_cta %}
-            <button class="product-info-btn"
-              style="top: {{ section.settings[top_setting_id] | default: 10 }}%; left: {{ section.settings[left_setting_id] | default: 80 }}%;"
+          {% if section.settings.enable_cta and product.featured_image.focal_point %}
+            {% assign focal_x = product.featured_image.focal_point.x | times: 100 %}
+            {% assign focal_y = product.featured_image.focal_point.y | times: 100 %}
+            <button id="cta_button_{{ product.id }}" class="product-info-btn"
+              style="top: {{ focal_y }}%; left: {{ focal_x }}%;"
               onclick="openPopup('{{ product.id }}')">+</button>
           {% endif %}
         </div>
