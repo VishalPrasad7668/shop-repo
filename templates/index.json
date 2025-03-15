@@ -55,7 +55,7 @@
           "type": "product_button",
           "settings": {
             "product": "blue-silk-tuxedo",
-            "button_top": 81,
+            "button_top": 59,
             "button_left": 80
           }
         }
