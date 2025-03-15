@@ -50,7 +50,7 @@
     {% assign first_product = section.blocks[0].settings.product %}
     
     {% if first_product != blank %}
-        <img src="{{ first_product.featured_image | img_url: '1024x1024' }}" 
+        <img src="{{ block.featured_image | img_url: '1024x1024' }}" 
              alt="{{ first_product.title }}" 
              class="product-image">
     {% else %}
