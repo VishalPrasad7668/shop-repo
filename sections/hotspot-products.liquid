@@ -73,7 +73,12 @@
                     <h2>{{ block.settings.product.title }}</h2>
                     <p>{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
                     <p><strong>Price:</strong> {{ block.settings.product.price | money }}</p>
-                    <a href="{{ block.settings.product.url }}" class="buy-now">Buy Now</a>
+                    
+                    <!-- Add to Cart Button -->
+                    <form method="post" action="/cart/add">
+                        <input type="hidden" name="id" value="{{ block.settings.product.variants.first.id }}">
+                        <button type="submit" class="add-to-cart">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         {% endif %}
@@ -168,17 +173,20 @@
     cursor: pointer;
 }
 
-.buy-now {
+/* Add to Cart Button */
+.add-to-cart {
     display: inline-block;
     padding: 10px 20px;
     background: #ff0000;
     color: white;
     text-decoration: none;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
     margin-top: 10px;
 }
 
-.buy-now:hover {
+.add-to-cart:hover {
     background: #cc0000;
 }
 </style>
