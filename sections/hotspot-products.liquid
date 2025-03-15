@@ -64,10 +64,7 @@
                  data-tooltip="{{ block.settings.product.title }}">
                 <button id="cta_button_{{ product.id }}"  class="product-info-btn" onclick="openPopup('{{ product.id }}')"><span>+</span></button>
             </div>
-        {% endif %}
-    {% endfor %}
-</div>
-<div id="popup-{{ product.id }}" class="product-popup">
+          <div id="popup-{{ product.id }}" class="product-popup">
         <div class="popup-content">
           <span class="close-btn" onclick="closePopup('{{ product.id }}')">&times;</span>
           <img src="{{ product.featured_image | img_url: '500x500' }}" alt="{{ product.title }}">
@@ -77,6 +74,9 @@
           <a href="{{ product.url }}" class="buy-now">Buy Now</a>
         </div>
       </div>
+        {% endif %}
+    {% endfor %}
+</div>
 
 <style>
 .hotspot-container {
