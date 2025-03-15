@@ -51,7 +51,7 @@
     
     {% if first_product != blank %}
         <img src="{{ block.featured_image | img_url: '1024x1024' }}" 
-             alt="{{ first_product.title }}" 
+             alt="{{ block.title }}" 
              class="product-image">
     {% else %}
         <p>Please add a product hotspot.</p>
