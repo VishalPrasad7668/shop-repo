@@ -50,22 +50,14 @@
     },
     "products_show_pNWVaD": {
       "type": "products-show",
-      "blocks": {
-        "product_button_4FGrHX": {
-          "type": "product_button",
-          "settings": {
-            "product": "blue-silk-tuxedo",
-            "button_top": 59,
-            "button_left": 80
-          }
-        }
-      },
-      "block_order": [
-        "product_button_4FGrHX"
-      ],
       "settings": {
         "collection": "trisco",
-        "limit": 4
+        "point_1_x": 0,
+        "point_1_y": 0,
+        "point_2_x": 0,
+        "point_2_y": 100,
+        "point_3_x": 100,
+        "point_3_y": 100
       }
     },
     "featured_collection_HENLLh": {
