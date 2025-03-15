@@ -1,17 +1,14 @@
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
-    {% for product in section.settings.collection.products limit: section.settings.limit %}
+    {% for product in section.settings.collection.products %}
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
           
-          {% for block in section.blocks %}
-            {% if block.settings.product == product.id %}
-              <button class="product-info-btn"
-                style="top: {{ block.settings.button_top }}%; left: {{ block.settings.button_left }}%;"
-                onclick="openPopup('{{ product.id }}')">+</button>
-            {% endif %}
-          {% endfor %}
+          {% if section.settings.enable_cta %}
+            <button class="product-info-btn"
+              onclick="openPopup('{{ product.id }}')">+</button>
+          {% endif %}
         </div>
         <h3>{{ product.title }}</h3>
         <p>{{ product.price | money }}</p>
@@ -51,6 +48,8 @@
 
     .product-info-btn {
       position: absolute;
+      top: 10px;
+      right: 10px;
       background: white;
       border: 2px solid black;
       border-radius: 50%;
@@ -62,7 +61,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transform: translate(-50%, -50%);
     }
 
     .product-popup {
@@ -132,52 +130,18 @@
   {
     "name": "Products Show",
     "settings": [
-      {
-        "type": "collection",
-        "id": "collection",
-        "label": "Select Collection"
-      },
-      {
-        "type": "range",
-        "id": "limit",
-        "label": "Number of Products",
-        "min": 2,
-        "max": 10,
-        "step": 1,
-        "default": 4
-      }
-    ],
-      "blocks": [
-      {
-        "type": "product_button",
-        "name": "Product Button Position",
-        "settings": [
-          {
-            "type": "product",
-            "id": "product",
-            "label": "Select Product"
-          },
-          {
-            "type": "range",
-            "id": "button_top",
-            "label": "Button Top Position (%)",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "default": 10
-          },
-          {
-            "type": "range",
-            "id": "button_left",
-            "label": "Button Left Position (%)",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "default": 80
-          }
-        ]
-      }
-    ],
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cta",
+      "label": "Enable CTA Buttons",
+      "default": true
+    }
+  ],
     "presets": [
       {
         "name": "Products Show",
