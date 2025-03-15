@@ -90,11 +90,12 @@
                                     
                                     {% for color in color_options %}
                                         {% unless color == "" %}
-                                            <button class="color-button" data-color="{{ color }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
+                                            <button class="color-button {{ color | downcase }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
                                         {% endunless %}
                                     {% endfor %}
                                 </div>
                             </div>
+
 
                             <!-- Size Selector -->
                             <div class="size-selector">
@@ -210,18 +211,38 @@
 
 .color-button {
     background: white;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     padding: 8px 15px;
+    position: relative;
     cursor: pointer;
-    width: 50%;
     text-align: center;
     font-weight: bold;
+    flex: 1;
+    overflow: hidden;
 }
 
-.color-button.active {
-    background: black;
-    color: white;
+.color-button:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px; /* Width of the color indicator */
+    background-color: inherit; /* Initially matches button background */
 }
+
+.color-button.active, .color-button:hover {
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+/* Specific classes for each color for the indicator */
+.color-button.blue:before { background-color: blue; }
+.color-button.black:before { background-color: black; }
+.color-button.red:before { background-color: red; }
+.color-button.grey:before { background-color: grey; }
+.color-button.white:before { background-color: white; }
 
 /* Size Selector */
 .size-selector select {
@@ -260,17 +281,11 @@ function closePopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'none';
 }
 
-function selectColor(button, color, productId) {
-    document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-
-    let sizeDropdown = document.getElementById('size-' + productId);
-    let variantInput = document.getElementById('variant-id-' + productId);
-    
-    sizeDropdown.addEventListener('change', function () {
-        let selectedSize = this.value;
-        let selectedVariant = document.querySelector(`[data-color="${color}"][value="${selectedSize}"]`);
-        variantInput.value = selectedVariant.getAttribute('data-variant-id');
+document.querySelectorAll('.color-button').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
     });
-}
+});
+
 </script>
