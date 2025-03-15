@@ -93,6 +93,14 @@
     "hotspot_products_AHU6xC": {
       "type": "hotspot-products",
       "blocks": {
+        "hotspot_kKbDnh": {
+          "type": "hotspot",
+          "settings": {
+            "product": "black-leather-bag",
+            "top": 11,
+            "left": 30
+          }
+        },
         "hotspot_iWkena": {
           "type": "hotspot",
           "settings": {
@@ -103,6 +111,7 @@
         }
       },
       "block_order": [
+        "hotspot_kKbDnh",
         "hotspot_iWkena"
       ],
       "settings": {}
