@@ -1,6 +1,108 @@
 {% schema %}
-  {
-    "name": "Section name",
-    "settings": []
-  }
+{
+    "name": "Product Hotspots",
+    "settings": [],
+    "blocks": [
+        {
+            "type": "hotspot",
+            "name": "Hotspot",
+            "settings": [
+                {
+                    "type": "product",
+                    "id": "product",
+                    "label": "Select Product"
+                },
+                {
+                    "type": "range",
+                    "id": "top",
+                    "label": "Position from Top",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "%",
+                    "default": 50
+                },
+                {
+                    "type": "range",
+                    "id": "left",
+                    "label": "Position from Left",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "%",
+                    "default": 50
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Product Hotspots",
+            "blocks": [
+                { "type": "hotspot" },
+                { "type": "hotspot" }
+            ]
+        }
+    ]
+}
 {% endschema %}
+
+<div class="hotspot-container">
+    {% for block in section.blocks %}
+        {% if block.settings.product != blank %}
+            <div class="hotspot" 
+                 style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;" 
+                 data-tooltip="{{ block.settings.product.title }}">
+                <a href="{{ block.settings.product.url }}">
+                    <span>+</span>
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<style>
+.hotspot-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.hotspot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+}
+
+.hotspot::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    display: none;
+    white-space: nowrap;
+}
+
+.hotspot:hover::after {
+    display: block;
+}
+</style>
