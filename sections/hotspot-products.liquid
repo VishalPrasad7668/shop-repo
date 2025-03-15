@@ -283,9 +283,42 @@ function closePopup(productId) {
 
 document.querySelectorAll('.color-button').forEach(button => {
     button.addEventListener('click', function() {
+        let productId = this.closest('.product-popup').id.replace('popup-', '');
+        let sizeDropdown = document.getElementById('size-' + productId);
+        let variantInput = document.getElementById('variant-id-' + productId);
+
+        // Remove active class from other buttons and set active state
         document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
         this.classList.add('active');
+
+        let selectedColor = this.getAttribute('data-color');
+        let selectedSize = sizeDropdown.value;
+
+        updateVariantId(productId, selectedSize, selectedColor);
     });
 });
+
+document.querySelectorAll('.size-selector select').forEach(select => {
+    select.addEventListener('change', function() {
+        let productId = this.id.replace('size-', '');
+        let selectedSize = this.value;
+        let selectedColorButton = document.querySelector('.color-button.active');
+        let selectedColor = selectedColorButton ? selectedColorButton.getAttribute('data-color') : null;
+
+        updateVariantId(productId, selectedSize, selectedColor);
+    });
+});
+
+function updateVariantId(productId, selectedSize, selectedColor) {
+    let productPopup = document.getElementById('popup-' + productId);
+    let variantInput = document.getElementById('variant-id-' + productId);
+
+    let variants = JSON.parse(productPopup.getAttribute('data-variants')); // Store variant data in popup attribute
+    let matchedVariant = variants.find(variant => variant.option1 === selectedSize && variant.option2 === selectedColor);
+
+    if (matchedVariant) {
+        variantInput.value = matchedVariant.id; // Update hidden variant ID field
+    }
+}
 
 </script>
