@@ -129,7 +129,44 @@
         {% endif %}
     {% endfor %}
 </div>
+
 <style>
+/* Container for Image */
+.hotspot-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Product Image */
+.product-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hotspot Style */
+.hotspot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+}
+
 /* Popup Styles */
 .product-popup {
     display: none;
@@ -142,24 +179,18 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: auto;
 }
 
-/* Popup Content Box */
 .popup-content {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 90%;
+    width: 80%;
     max-width: 450px;
     position: relative;
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Close Button */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -168,50 +199,7 @@
     cursor: pointer;
 }
 
-/* Popup Inner */
-.popup-inner {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-/* Fixed Image Size */
-.popup-inner img {
-    width: 100%;
-    max-width: 300px; /* Limits image size */
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-/* Product Details */
-.popup-details {
-    width: 100%;
-    text-align: left;
-}
-
-/* Product Price */
-.popup-price {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-/* Product Description */
-.popup-desc {
-    font-size: 14px;
-    color: #555;
-}
-
 /* Color Options */
-.color-selector label,
-.size-selector label {
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-}
-
 .color-options {
     display: flex;
     gap: 10px;
@@ -223,9 +211,9 @@
     border: 1px solid black;
     padding: 8px 15px;
     cursor: pointer;
+    width: 50%;
     text-align: center;
     font-weight: bold;
-    flex: 1;
 }
 
 .color-button.active {
@@ -260,6 +248,7 @@
     background: #333;
 }
 </style>
+
 <script>
 function openPopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'flex';
