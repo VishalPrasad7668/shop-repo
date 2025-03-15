@@ -69,16 +69,42 @@
             <div id="popup-{{ block.settings.product.id }}" class="product-popup">
                 <div class="popup-content">
                     <span class="close-btn" onclick="closePopup('{{ block.settings.product.id }}')">&times;</span>
-                    <img src="{{ block.settings.product.featured_image | img_url: '500x500' }}" alt="{{ block.settings.product.title }}">
-                    <h2>{{ block.settings.product.title }}</h2>
-                    <p>{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
-                    <p><strong>Price:</strong> {{ block.settings.product.price | money }}</p>
-                    
-                    <!-- Add to Cart Button -->
-                    <form method="post" action="/cart/add">
-                        <input type="hidden" name="id" value="{{ block.settings.product.variants.first.id }}">
-                        <button type="submit" class="add-to-cart">Add to Cart</button>
-                    </form>
+                    <div class="popup-inner">
+                        <img src="{{ block.settings.product.featured_image | img_url: '500x500' }}" alt="{{ block.settings.product.title }}">
+                        <div class="popup-details">
+                            <h2>{{ block.settings.product.title }}</h2>
+                            <p class="popup-price">{{ block.settings.product.price | money }}</p>
+                            <p class="popup-desc">{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
+
+                            <!-- Color Selector -->
+                            <div class="color-options">
+                                {% for option in block.settings.product.options %}
+                                    {% if option == 'Color' %}
+                                        {% for value in block.settings.product.variants %}
+                                            <button class="color-button">{{ value.option1 }}</button>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <!-- Size Selector -->
+                            <div class="size-selector">
+                                <label for="size-{{ block.settings.product.id }}">Size</label>
+                                <select id="size-{{ block.settings.product.id }}">
+                                    <option selected disabled>Choose your size</option>
+                                    {% for variant in block.settings.product.variants %}
+                                        <option value="{{ variant.id }}">{{ variant.option2 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Add to Cart Button -->
+                            <form method="post" action="/cart/add">
+                                <input type="hidden" name="id" value="{{ block.settings.product.variants.first.id }}">
+                                <button type="submit" class="add-to-cart">ADD TO CART →</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endif %}
@@ -158,11 +184,11 @@
 .popup-content {
     background: white;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 80%;
     max-width: 600px;
     position: relative;
-    text-align: center;
+    text-align: left;
 }
 
 .close-btn {
@@ -173,21 +199,80 @@
     cursor: pointer;
 }
 
+/* Popup Layout */
+.popup-inner {
+    display: flex;
+    gap: 20px;
+}
+
+.popup-inner img {
+    width: 150px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.popup-details {
+    flex-grow: 1;
+}
+
+.popup-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.popup-desc {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Color Options */
+.color-options {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.color-button {
+    background: #fff;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.color-button:hover {
+    background: #000;
+    color: white;
+}
+
+/* Size Selector */
+.size-selector {
+    margin: 10px 0;
+}
+
+.size-selector select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 /* Add to Cart Button */
 .add-to-cart {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #ff0000;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: black;
     color: white;
-    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 5px;
     margin-top: 10px;
 }
 
 .add-to-cart:hover {
-    background: #cc0000;
+    background: #333;
 }
 </style>
 
