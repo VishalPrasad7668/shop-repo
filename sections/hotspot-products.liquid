@@ -80,51 +80,45 @@
                             <div class="color-selector">
                                 <label>Color</label>
                                 <div class="color-options">
-                                    {% assign color_options = "" %}
+                                    {% assign colors = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        {% unless color_options contains variant.option2 %}
-                                            {% assign color_options = color_options | append: variant.option2 | append: "," %}
+                                        {% unless colors contains variant.option2 %}
+                                            {% assign colors = colors | append: variant.option2 | append: "," %}
                                         {% endunless %}
                                     {% endfor %}
-                                    {% assign color_options = color_options | split: "," %}
-                                    
-                                    {% for color in color_options %}
-                                        {% unless color == "" %}
-                                            <button class="color-button {{ color | downcase }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
-                                        {% endunless %}
+                                    {% assign colors = colors | split: "," %}
+                            
+                                    {% for color in colors %}
+                                        <button class="color-button" data-color="{{ color }}" onclick="updateColorSelection('{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
                                     {% endfor %}
                                 </div>
                             </div>
-
-
+                            
                             <!-- Size Selector -->
                             <div class="size-selector">
                                 <label>Size</label>
-                                <select id="size-{{ block.settings.product.id }}">
-                                    <option selected disabled>Choose your size</option>
-                                    {% assign size_options = "" %}
+                                <select onchange="updateSizeSelection(this.value, '{{ block.settings.product.id }}')" id="size-selector-{{ block.settings.product.id }}">
+                                    <option value="">Choose your size</option>
+                                    {% assign sizes = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        {% unless size_options contains variant.option1 %}
-                                            {% assign size_options = size_options | append: variant.option1 | append: "," %}
+                                        {% unless sizes contains variant.option1 %}
+                                            {% assign sizes = sizes | append: variant.option1 | append: "," %}
                                         {% endunless %}
                                     {% endfor %}
-                                    {% assign size_options = size_options | split: "," %}
-                                    
-                                    {% for size in size_options %}
-                                        {% unless size == "" %}
-                                            <option value="{{ size }}">{{ size }}</option>
-                                        {% endunless %}
+                                    {% assign sizes = sizes | split: "," %}
+                            
+                                    {% for size in sizes %}
+                                        <option value="{{ size }}">{{ size }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-
-                          
-                          
+                            
                             <!-- Add to Cart Button -->
                             <form method="post" action="/cart/add">
-                                <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
+                                <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="">
                                 <button type="submit" class="add-to-cart">ADD TO CART →</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -281,44 +275,34 @@ function closePopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'none';
 }
 
-document.querySelectorAll('.color-button').forEach(button => {
-    button.addEventListener('click', function() {
-        let productId = this.closest('.product-popup').id.replace('popup-', '');
-        let sizeDropdown = document.getElementById('size-' + productId);
-        let variantInput = document.getElementById('variant-id-' + productId);
+</script>
+<script>
+let selectedSize = {};
+let selectedColor = {};
 
-        // Remove active class from other buttons and set active state
-        document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-
-        let selectedColor = this.getAttribute('data-color');
-        let selectedSize = sizeDropdown.value;
-
-        updateVariantId(productId, selectedSize, selectedColor);
-    });
-});
-
-document.querySelectorAll('.size-selector select').forEach(select => {
-    select.addEventListener('change', function() {
-        let productId = this.id.replace('size-', '');
-        let selectedSize = this.value;
-        let selectedColorButton = document.querySelector('.color-button.active');
-        let selectedColor = selectedColorButton ? selectedColorButton.getAttribute('data-color') : null;
-
-        updateVariantId(productId, selectedSize, selectedColor);
-    });
-});
-
-function updateVariantId(productId, selectedSize, selectedColor) {
-    let productPopup = document.getElementById('popup-' + productId);
-    let variantInput = document.getElementById('variant-id-' + productId);
-
-    let variants = JSON.parse(productPopup.getAttribute('data-variants')); // Store variant data in popup attribute
-    let matchedVariant = variants.find(variant => variant.option1 === selectedSize && variant.option2 === selectedColor);
-
-    if (matchedVariant) {
-        variantInput.value = matchedVariant.id; // Update hidden variant ID field
-    }
+function updateColorSelection(color, productId) {
+    selectedColor[productId] = color;
+    updateVariantId(productId);
 }
 
+function updateSizeSelection(size, productId) {
+    selectedSize[productId] = size;
+    updateVariantId(productId);
+}
+
+function updateVariantId(productId) {
+    const size = selectedSize[productId];
+    const color = selectedColor[productId];
+    if (size && color) {
+        fetch(`/products/${productId}.js`)
+            .then(response => response.json())
+            .then(product => {
+                const matchingVariant = product.variants.find(variant => 
+                    variant.option1 === size && variant.option2 === color);
+                if (matchingVariant) {
+                    document.getElementById('variant-id-' + productId).value = matchingVariant.id;
+                }
+            });
+    }
+}
 </script>
