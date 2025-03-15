@@ -28,13 +28,13 @@
     {% for product in section.settings.collection.products %}
       <div class="product-card">
         <div class="product-image-container">
-          <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
+          <img src="{{ product.featured_image | img_url: '300x300' }}" 
+               alt="{{ product.title }}" 
+               data-focal-x="{{ product.featured_image.aspect_ratio | times: 50 }}"
+               data-focal-y="50">
           
-          {% if section.settings.enable_cta and product.featured_image.focal_point %}
-            {% assign focal_x = product.featured_image.focal_point.x | times: 100 %}
-            {% assign focal_y = product.featured_image.focal_point.y | times: 100 %}
+          {% if section.settings.enable_cta %}
             <button id="cta_button_{{ product.id }}" class="product-info-btn"
-              style="top: {{ focal_y }}%; left: {{ focal_x }}%;"
               onclick="openPopup('{{ product.id }}')">+</button>
           {% endif %}
         </div>
@@ -120,6 +120,21 @@
   </style>
 
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".product-card").forEach(card => {
+        let img = card.querySelector("img");
+        let button = card.querySelector(".product-info-btn");
+
+        if (img && button) {
+          let focalX = img.getAttribute("data-focal-x") || "50"; // Default center
+          let focalY = img.getAttribute("data-focal-y") || "50"; // Default center
+          
+          button.style.left = focalX + "%";
+          button.style.top = focalY + "%";
+        }
+      });
+    });
+
     function openPopup(productId) {
       document.getElementById('popup-' + productId).style.display = 'flex';
     }
