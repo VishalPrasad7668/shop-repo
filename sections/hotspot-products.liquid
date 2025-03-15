@@ -76,39 +76,42 @@
                             <p class="popup-price">{{ block.settings.product.price | money }}</p>
                             <p class="popup-desc">{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
 
-                            <!-- Color Selector (if available) -->
-                            {% assign color_options = "" %}
+                            <!-- Color Selector -->
+                            {% assign colors = "" %}
                             {% for variant in block.settings.product.variants %}
-                                {% unless color_options contains variant.option1 %}
-                                    {% assign color_options = color_options | append: variant.option1 | append: "," %}
+                                {% unless colors contains variant.option1 %}
+                                    {% assign colors = colors | append: variant.option1 | append: "," %}
                                 {% endunless %}
                             {% endfor %}
-                            {% assign color_options = color_options | split: "," %}
+                            {% assign colors = colors | split: "," %}
                             
-                            {% if color_options.size > 1 %}
-                                <div class="color-options">
-                                    {% for color in color_options %}
-                                        {% unless color == "" %}
-                                            <button class="color-button" data-color="{{ color }}">{{ color }}</button>
-                                        {% endunless %}
-                                    {% endfor %}
+                            {% if colors.size > 1 %}
+                                <div class="color-selector">
+                                    <label>Color</label>
+                                    <div class="color-options">
+                                        {% for color in colors %}
+                                            {% unless color == "" %}
+                                                <button class="color-button" data-color="{{ color }}">{{ color }}</button>
+                                            {% endunless %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             {% endif %}
 
                             <!-- Size Selector -->
-                            {% assign size_options = "" %}
+                            {% assign sizes = "" %}
                             {% for variant in block.settings.product.variants %}
-                                {% unless size_options contains variant.option2 %}
-                                    {% assign size_options = size_options | append: variant.option2 | append: "," %}
+                                {% unless sizes contains variant.option2 %}
+                                    {% assign sizes = sizes | append: variant.option2 | append: "," %}
                                 {% endunless %}
                             {% endfor %}
-                            {% assign size_options = size_options | split: "," %}
+                            {% assign sizes = sizes | split: "," %}
 
                             <div class="size-selector">
-                                <label for="size-{{ block.settings.product.id }}">Size</label>
-                                <select id="size-{{ block.settings.product.id }}">
+                                <label>Size</label>
+                                <select>
                                     <option selected disabled>Choose your size</option>
-                                    {% for size in size_options %}
+                                    {% for size in sizes %}
                                         {% unless size == "" %}
                                             <option value="{{ size }}">{{ size }}</option>
                                         {% endunless %}
@@ -185,7 +188,7 @@
     padding: 20px;
     border-radius: 10px;
     width: 80%;
-    max-width: 600px;
+    max-width: 450px;
     position: relative;
     text-align: left;
 }
@@ -201,17 +204,18 @@
 /* Popup Layout */
 .popup-inner {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
 }
 
 .popup-inner img {
-    width: 150px;
+    width: 100%;
     height: auto;
     border-radius: 5px;
 }
 
 .popup-details {
     flex-grow: 1;
+    padding: 10px;
 }
 
 .popup-price {
@@ -226,6 +230,14 @@
 }
 
 /* Color Options */
+.color-selector label,
+.size-selector label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
 .color-options {
     display: flex;
     gap: 10px;
@@ -233,33 +245,33 @@
 }
 
 .color-button {
-    background: #fff;
-    border: 1px solid #000;
-    padding: 5px 10px;
+    background: white;
+    border: 1px solid black;
+    padding: 8px 15px;
     cursor: pointer;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
 }
 
-.color-button:hover {
-    background: #000;
+.color-button.active {
+    background: black;
     color: white;
 }
 
 /* Size Selector */
-.size-selector {
-    margin: 10px 0;
-}
-
 .size-selector select {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
+    border: 1px solid black;
 }
 
 /* Add to Cart Button */
 .add-to-cart {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: black;
     color: white;
     text-align: center;
@@ -283,4 +295,11 @@ function openPopup(productId) {
 function closePopup(productId) {
     document.getElementById('popup-' + productId).style.display = 'none';
 }
+
+document.querySelectorAll('.color-button').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.color-button').forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
 </script>
