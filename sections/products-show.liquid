@@ -1,12 +1,44 @@
+{% schema %}
+{
+  "name": "Products Show",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cta",
+      "label": "Enable CTA Buttons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "CTA Button Positions"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Show",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}
+
 {% if section.settings.collection.products_count > 0 %}
   <div class="featured-collection">
     {% for product in section.settings.collection.products %}
+      {% assign top_setting_id = 'button_top_' | append: product.id %}
+      {% assign left_setting_id = 'button_left_' | append: product.id %}
       <div class="product-card">
         <div class="product-image-container">
           <img src="{{ product.featured_image | img_url: '300x300' }}" alt="{{ product.title }}">
           
           {% if section.settings.enable_cta %}
             <button class="product-info-btn"
+              style="top: {{ section.settings[top_setting_id] | default: 10 }}%; left: {{ section.settings[left_setting_id] | default: 80 }}%;"
               onclick="openPopup('{{ product.id }}')">+</button>
           {% endif %}
         </div>
@@ -48,8 +80,6 @@
 
     .product-info-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
       background: white;
       border: 2px solid black;
       border-radius: 50%;
@@ -61,6 +91,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transform: translate(-50%, -50%);
     }
 
     .product-popup {
@@ -125,6 +156,7 @@
             {%- endfor -%}
         {%- endif -%}
       </ul> {% endcomment %}
+{% comment %}
 
 {% schema %}
   {
@@ -150,7 +182,6 @@
     ]
   }
 {% endschema %}
-{% comment %}
 {% schema %}
   {
     "name": "Products Show",
