@@ -82,8 +82,8 @@
                                 <div class="color-options">
                                     {% assign color_options = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        {% unless color_options contains variant.option1 %}
-                                            {% assign color_options = color_options | append: variant.option1 | append: "," %}
+                                        {% unless color_options contains variant.option2 %}
+                                            {% assign color_options = color_options | append: variant.option2 | append: "," %}
                                         {% endunless %}
                                     {% endfor %}
                                     {% assign color_options = color_options | split: "," %}
@@ -103,8 +103,8 @@
                                     <option selected disabled>Choose your size</option>
                                     {% assign size_options = "" %}
                                     {% for variant in block.settings.product.variants %}
-                                        {% unless size_options contains variant.option2 %}
-                                            {% assign size_options = size_options | append: variant.option2 | append: "," %}
+                                        {% unless size_options contains variant.option1 %}
+                                            {% assign size_options = size_options | append: variant.option1 | append: "," %}
                                         {% endunless %}
                                     {% endfor %}
                                     {% assign size_options = size_options | split: "," %}
@@ -117,6 +117,8 @@
                                 </select>
                             </div>
 
+                          
+                          
                             <!-- Add to Cart Button -->
                             <form method="post" action="/cart/add">
                                 <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
