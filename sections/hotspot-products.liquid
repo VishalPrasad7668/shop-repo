@@ -123,8 +123,6 @@
     {% endif %}
 </div>
 {% endfor %}
-
-
 <style>
 /* Container for Image */
 .hotspot-container {
@@ -264,50 +262,57 @@
 }
 </style>
 <script>
-function openPopup(productId) {
-    document.getElementById('popup-' + productId).style.display = 'flex';
-}
-
-function closePopup(productId) {
-    document.getElementById('popup-' + productId).style.display = 'none';
-}
-
-function selectColor(button, color, productId) {
-    let colorButtons = document.querySelectorAll('.color-button');
-    colorButtons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    updateVariant(productId);
-}
-
-function updateVariant(productId) {
-    try {
-        const variantDataElement = document.getElementById('variant-data-' + productId);
-        let variants = JSON.parse(variantDataElement.value);
-        let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
-        let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
-
-        let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
-        if (matchingVariant) {
-            document.getElementById('variant-id-' + productId).value = matchingVariant.id;
-        } else {
-            document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
-        }
-    } catch (error) {
-        console.error('Error updating variant:', error);
+document.addEventListener('DOMContentLoaded', function() {
+    function openPopup(productId) {
+        document.getElementById('popup-' + productId).style.display = 'flex';
     }
-}
 
-document.querySelectorAll('.color-button').forEach(button => {
-    button.addEventListener('click', function() {
-        let productId = this.closest('.product-popup').querySelector('input[type="hidden"]').id.split('-')[2];
-        selectColor(this, this.textContent.trim(), productId);
-    });
-});
+    function closePopup(productId) {
+        document.getElementById('popup-' + productId).style.display = 'none';
+    }
 
-document.querySelectorAll('select[id^="size-"]').forEach(select => {
-    select.addEventListener('change', function() {
-        let productId = this.id.split('-')[2];
+    function selectColor(button, color, productId) {
+        let colorButtons = document.querySelectorAll('.color-button');
+        colorButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
         updateVariant(productId);
+    }
+
+    function updateVariant(productId) {
+        const variantDataElement = document.getElementById('variant-data-' + productId);
+        if (!variantDataElement) {
+            console.error('Variant data element not found for productId:', productId);
+            return;
+        }
+
+        try {
+            let variants = JSON.parse(variantDataElement.value);
+            let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
+            let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
+
+            let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
+            if (matchingVariant) {
+                document.getElementById('variant-id-' + productId).value = matchingVariant.id;
+            } else {
+                document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
+            }
+        } catch (error) {
+            console.error('Error updating variant:', error);
+        }
+    }
+
+    document.querySelectorAll('.color-button').forEach(button => {
+        button.addEventListener('click', function() {
+            let productId = this.closest('.product-popup').querySelector('input[type="hidden"]').id.split('-')[2];
+            selectColor(this, this.textContent.trim(), productId);
+        });
+    });
+
+    document.querySelectorAll('select[id^="size-"]').forEach(select => {
+        select.addEventListener('change', function() {
+            let productId = this.id.split('-')[2];
+            updateVariant(productId);
+        });
     });
 });
 </script>
