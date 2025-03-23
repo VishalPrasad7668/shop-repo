@@ -230,18 +230,11 @@
                         </div>
 
                         <!-- Size Selector -->
+<!-- Size Selector -->
                         <div class="size-selector">
                             <label>Size</label>
-                            <select id="size-{{ block.settings.product.id }}">
-                                <option selected disabled>Choose your size</option>
-                                {% assign size_options = "" %}
-                                {% for variant in block.settings.product.variants %}
-                                    {% unless size_options contains variant.option1 %}
-                                        {% assign size_options = size_options | append: variant.option1 | append: "," %}
-                                    {% endunless %}
-                                {% endfor %}
-                                {% assign size_options = size_options | split: "," %}
-                                
+                            <select id="size-{{ block.settings.product.id }}" onchange="updateVariant('{{ block.settings.product.id }}')">
+                                <option disabled selected>Choose your size</option>
                                 {% for size in size_options %}
                                     {% unless size == "" %}
                                         <option value="{{ size }}">{{ size }}</option>
@@ -262,7 +255,6 @@
     {% endif %}
 </div>
 {% endfor %}
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     window.openPopup = function(productId) {
@@ -292,32 +284,29 @@ document.addEventListener('DOMContentLoaded', function() {
             let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
             let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
 
-            console.log("Variants available:", variants); // Debugging line
-            console.log("Selected color:", selectedColor); // Debugging line
-            console.log("Selected size:", selectedSize); // Debugging line
+            console.log("Variants available:", variants);
+            console.log("Selected color:", selectedColor);
+            console.log("Selected size:", selectedSize);
 
-            let matchingVariant = variants.find(variant => {
-                return variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor;
-            });
-
+            let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
             if (matchingVariant) {
                 document.getElementById('variant-id-' + productId).value = matchingVariant.id;
-                console.log("Variant ID updated to:", matchingVariant.id); // Debugging line
+                console.log("Variant ID updated to:", matchingVariant.id);
             } else {
-                document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
-                console.error("No matching variant found."); // Debugging line
+                document.getElementById('variant-id-' + productId).value = '';
+                console.error("No matching variant found.");
             }
         } catch (error) {
             console.error('Error updating variant:', error);
         }
     }
 
-    // Ensure the form does not submit if the variant ID is not set
+    // Add this to ensure form doesn't submit without a valid variant ID
     document.querySelectorAll('form').forEach(form => {
         form.addEventListener('submit', function(event) {
             var variantId = this.querySelector('input[name="id"]').value;
             if (!variantId) {
-                event.preventDefault(); // Stop the form from submitting
+                event.preventDefault();
                 console.error('Attempted to submit form without a variant ID.');
             }
         });
