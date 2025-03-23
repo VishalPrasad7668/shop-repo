@@ -53,22 +53,8 @@
         "show_text_below": false
       }
     },
-    "products_show_pNWVaD": {
-      "type": "products-show",
-      "disabled": true,
-      "settings": {
-        "collection": "trisco",
-        "point_1_x": 0,
-        "point_1_y": 0,
-        "point_2_x": 0,
-        "point_2_y": 47,
-        "point_3_x": 100,
-        "point_3_y": 100
-      }
-    },
     "featured_collection_HENLLh": {
       "type": "featured-collection",
-      "disabled": true,
       "settings": {
         "collection": "trisco",
         "products_to_show": 4,
@@ -125,7 +111,6 @@
   "order": [
     "banner_home_HnrcMT",
     "image_banner",
-    "products_show_pNWVaD",
     "featured_collection_HENLLh",
     "hotspot_products_AHU6xC"
   ]
