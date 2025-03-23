@@ -45,84 +45,7 @@
     ]
 }
 {% endschema %}
-{% for block in section.blocks %}
-<div class="hotspot-container">
-    <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" alt="{{ block.settings.product.title }}" class="product-image">
 
-    {% if block.settings.product != blank %}
-        <!-- Hidden input for storing variant data in JSON format -->
-        <input type="hidden" id="variant-data-{{ block.settings.product.id }}" value='{{ block.settings.product.variants | json | escape }}'>
-
-        <div class="hotspot" onclick="openPopup('{{ block.settings.product.id }}')"
-             style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;"
-             data-tooltip="{{ block.settings.product.title }}">
-            <span>+</span>
-        </div>
-
-        <!-- Popup for product variant selection -->
-        <div id="popup-{{ block.settings.product.id }}" class="product-popup">
-            <div class="popup-content">
-                <span class="close-btn" onclick="closePopup('{{ block.settings.product.id }}')">&times;</span>
-                <div class="popup-inner">
-                    <img src="{{ block.settings.product.featured_image | img_url: '500x500' }}" alt="{{ block.settings.product.title }}">
-                    <div class="popup-details">
-                        <h2>{{ block.settings.product.title }}</h2>
-                        <p class="popup-price">{{ block.settings.product.price | money }}</p>
-                        <p class="popup-desc">{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
-
-                        <!-- Color Selector -->
-                        <div class="color-selector">
-                            <label>Color</label>
-                            <div class="color-options">
-                                {% assign color_options = "" %}
-                                {% for variant in block.settings.product.variants %}
-                                    {% unless color_options contains variant.option2 %}
-                                        {% assign color_options = color_options | append: variant.option2 | append: "," %}
-                                    {% endunless %}
-                                {% endfor %}
-                                {% assign color_options = color_options | split: "," %}
-                                
-                                {% for color in color_options %}
-                                    {% unless color == "" %}
-                                        <button class="color-button {{ color | downcase }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
-                                    {% endunless %}
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <!-- Size Selector -->
-                        <div class="size-selector">
-                            <label>Size</label>
-                            <select id="size-{{ block.settings.product.id }}">
-                                <option selected disabled>Choose your size</option>
-                                {% assign size_options = "" %}
-                                {% for variant in block.settings.product.variants %}
-                                    {% unless size_options contains variant.option1 %}
-                                        {% assign size_options = size_options | append: variant.option1 | append: "," %}
-                                    {% endunless %}
-                                {% endfor %}
-                                {% assign size_options = size_options | split: "," %}
-                                
-                                {% for size in size_options %}
-                                    {% unless size == "" %}
-                                        <option value="{{ size }}">{{ size }}</option>
-                                    {% endunless %}
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <!-- Add to Cart Button -->
-                        <form method="post" action="/cart/add">
-                            <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
-                            <button type="submit" class="add-to-cart">ADD TO CART →</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-</div>
-{% endfor %}
 <style>
 /* Container for Image */
 .hotspot-container {
@@ -261,22 +184,102 @@
     background: #333;
 }
 </style>
+<!-- Assuming we're within a Shopify or similar platform using Liquid templating -->
+{% for block in section.blocks %}
+<div class="hotspot-container">
+    <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" alt="{{ block.settings.product.title }}" class="product-image">
+
+    {% if block.settings.product != blank %}
+        <!-- Hidden input for storing variant data in JSON format -->
+        <input type="hidden" id="variant-data-{{ block.settings.product.id }}" value='{{ block.settings.product.variants | json | escape }}'>
+
+        <div class="hotspot" onclick="openPopup('{{ block.settings.product.id }}')"
+             style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;"
+             data-tooltip="{{ block.settings.product.title }}">
+            <span>+</span>
+        </div>
+
+        <!-- Popup for product variant selection -->
+        <div id="popup-{{ block.settings.product.id }}" class="product-popup">
+            <div class="popup-content">
+                <span class="close-btn" onclick="closePopup('{{ block.settings.product.id }}')">&times;</span>
+                <div class="popup-inner">
+                    <img src="{{ block.settings.product.featured_image | img_url: '500x500' }}" alt="{{ block.settings.product.title }}">
+                    <div class="popup-details">
+                        <h2>{{ block.settings.product.title }}</h2>
+                        <p class="popup-price">{{ block.settings.product.price | money }}</p>
+                        <p class="popup-desc">{{ block.settings.product.description | strip_html | truncate: 150 }}</p>
+
+                        <!-- Color Selector -->
+                        <div class="color-selector">
+                            <label>Color</label>
+                            <div class="color-options">
+                                {% assign color_options = "" %}
+                                {% for variant in block.settings.product.variants %}
+                                    {% unless color_options contains variant.option2 %}
+                                        {% assign color_options = color_options | append: variant.option2 | append: "," %}
+                                    {% endunless %}
+                                {% endfor %}
+                                {% assign color_options = color_options | split: "," %}
+                                
+                                {% for color in color_options %}
+                                    {% unless color == "" %}
+                                        <button class="color-button {{ color | downcase }}" onclick="selectColor(this, '{{ color }}', '{{ block.settings.product.id }}')">{{ color }}</button>
+                                    {% endunless %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Size Selector -->
+                        <div class="size-selector">
+                            <label>Size</label>
+                            <select id="size-{{ block.settings.product.id }}">
+                                <option selected disabled>Choose your size</option>
+                                {% assign size_options = "" %}
+                                {% for variant in block.settings.product.variants %}
+                                    {% unless size_options contains variant.option1 %}
+                                        {% assign size_options = size_options | append: variant.option1 | append: "," %}
+                                    {% endunless %}
+                                {% endfor %}
+                                {% assign size_options = size_options | split: "," %}
+                                
+                                {% for size in size_options %}
+                                    {% unless size == "" %}
+                                        <option value="{{ size }}">{{ size }}</option>
+                                    {% endunless %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Add to Cart Button -->
+                        <form method="post" action="/cart/add">
+                            <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
+                            <button type="submit" class="add-to-cart">ADD TO CART →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endfor %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    function openPopup(productId) {
+    window.openPopup = function(productId) {
         document.getElementById('popup-' + productId).style.display = 'flex';
-    }
+    };
 
-    function closePopup(productId) {
+    window.closePopup = function(productId) {
         document.getElementById('popup-' + productId).style.display = 'none';
-    }
+    };
 
-    function selectColor(button, color, productId) {
+    window.selectColor = function(button, color, productId) {
         let colorButtons = document.querySelectorAll('.color-button');
         colorButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
         updateVariant(productId);
-    }
+    };
 
     function updateVariant(productId) {
         const variantDataElement = document.getElementById('variant-data-' + productId);
@@ -300,19 +303,5 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error updating variant:', error);
         }
     }
-
-    document.querySelectorAll('.color-button').forEach(button => {
-        button.addEventListener('click', function() {
-            let productId = this.closest('.product-popup').querySelector('input[type="hidden"]').id.split('-')[2];
-            selectColor(this, this.textContent.trim(), productId);
-        });
-    });
-
-    document.querySelectorAll('select[id^="size-"]').forEach(select => {
-        select.addEventListener('change', function() {
-            let productId = this.id.split('-')[2];
-            updateVariant(productId);
-        });
-    });
 });
 </script>
