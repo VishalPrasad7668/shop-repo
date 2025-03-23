@@ -1,3 +1,119 @@
+<style>
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #fff;
+    position: relative;
+}
+.header .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+.header .choose-gift {
+    background-color: #ffeb3b;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+.header .center-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+}
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    min-height: 83vh; /* Adjusts dynamically */
+    background: url('./Group1000008197.png') no-repeat center center/cover;
+}
+
+.hero-content {
+    position: absolute;
+    left: 3%;
+    bottom: 8%;
+    max-width: 34%;
+}
+
+.hero-content h1 {
+    margin-bottom: 50px;
+    margin-top: 0;
+    font-family: Jost;
+    font-weight: 500;
+    font-size: 70px;
+    line-height: 80px;
+    letter-spacing: 0px;
+    vertical-align: middle;
+}
+
+.hero-content p {
+    font-family: Jost;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0px;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.shop-cta{
+    margin-top: 50px;
+}
+.shop-cta a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #333;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .hero-content {
+        position: static;
+        transform: none;
+        max-width: 80%;
+    }
+}
+.footer {
+    background: #f5f5f5;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+</style>
+<div class="header">
+    <div class="logo">TISSO VISON</div>
+    <div class="center-text">Find the ideal gift for your loved ones.</div>
+    <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+</div>
+<div class="hero-section">
+    <div class="hero-content">    
+        <h1>The Gift Guide</h1>
+        <p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>
+        <div class="shop-cta">
+            <a href="#" class="shop-now">SHOP NOW →</a>
+        </div>
+    </div>
+</div>
+<div class="footer">SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL</div>
 {% schema %}
   {
     "name": "Section name",
