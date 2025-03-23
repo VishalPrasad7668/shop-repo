@@ -251,7 +251,7 @@
                         </div>
 
                         <!-- Add to Cart Button -->
-                        <form method="post" action="/cart/add" id="add-to-cart-form-{{ block.settings.product.id }}">
+                        <form method="post" action="/cart/add">
                             <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}">
                             <button type="submit" class="add-to-cart">ADD TO CART →</button>
                         </form>
@@ -262,6 +262,7 @@
     {% endif %}
 </div>
 {% endfor %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     window.openPopup = function(productId) {
@@ -294,12 +295,25 @@ document.addEventListener('DOMContentLoaded', function() {
             let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
             if (matchingVariant) {
                 document.getElementById('variant-id-' + productId).value = matchingVariant.id;
+                console.log("Variant ID updated to:", matchingVariant.id); // Debugging line
             } else {
                 document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
+                console.log("No matching variant found."); // Debugging line
             }
         } catch (error) {
             console.error('Error updating variant:', error);
         }
     }
+
+    // Ensure the form does not submit if the variant ID is not set
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            var variantId = this.querySelector('input[name="id"]').value;
+            if (!variantId) {
+                event.preventDefault(); // Stop the form from submitting
+                console.error('Attempted to submit form without a variant ID.');
+            }
+        });
+    });
 });
 </script>
