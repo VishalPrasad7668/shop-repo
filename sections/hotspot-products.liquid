@@ -230,11 +230,19 @@
                         </div>
 
                         <!-- Size Selector -->
-<!-- Size Selector -->
+                        <!-- Size Selector -->
                         <div class="size-selector">
                             <label>Size</label>
                             <select id="size-{{ block.settings.product.id }}" onchange="updateVariant('{{ block.settings.product.id }}')">
-                                <option disabled selected>Choose your size</option>
+                                <option value="" disabled selected>Choose your size</option>
+                                {% assign size_options = "" %}
+                                {% for variant in block.settings.product.variants %}
+                                    {% unless size_options contains variant.option1 %}
+                                        {% assign size_options = size_options | append: variant.option1 | append: "," %}
+                                    {% endunless %}
+                                {% endfor %}
+                                {% assign size_options = size_options | split: "," %}
+                                
                                 {% for size in size_options %}
                                     {% unless size == "" %}
                                         <option value="{{ size }}">{{ size }}</option>
@@ -300,16 +308,5 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error updating variant:', error);
         }
     }
-
-    // Add this to ensure form doesn't submit without a valid variant ID
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function(event) {
-            var variantId = this.querySelector('input[name="id"]').value;
-            if (!variantId) {
-                event.preventDefault();
-                console.error('Attempted to submit form without a variant ID.');
-            }
-        });
-    });
 });
 </script>
