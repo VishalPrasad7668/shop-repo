@@ -286,12 +286,17 @@ function updateVariant(productId) {
     let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
     let variants = JSON.parse(document.getElementById('variant-data-' + productId).value);
 
+    console.log("Selected color: " + selectedColor);
+    console.log("Selected size: " + selectedSize);
+
     let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
     if (matchingVariant) {
+        console.log("Matching variant ID: " + matchingVariant.id);
         document.getElementById('variant-id-' + productId).value = matchingVariant.id;
     } else {
-        // If no matching variant, reset the variant ID input
-        document.getElementById('variant-id-' + productId).value = '';
+        // Log no matching variant found
+        console.log("No matching variant found.");
+        document.getElementById('variant-id-' + productId).value = '';  // Ensure no incorrect ID is submitted
     }
 }
 
