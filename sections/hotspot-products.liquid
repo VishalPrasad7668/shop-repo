@@ -46,22 +46,20 @@
 }
 {% endschema %}
 {% for block in section.blocks %}
-<div class="hotspot-container">    
-    <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" 
- alt="{{ block.settings.product.title }}" 
- class="product-image">
+<div class="hotspot-container">
+    <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" alt="{{ block.settings.product.title }}" class="product-image">
 
     {% if block.settings.product != blank %}
-        <!-- Hidden Input for Variant Data -->
-        <input type="hidden" id="variant-data-{{ block.settings.product.id }}" value="{{ block.settings.product.variants | json }}">
+        <!-- Hidden input for storing variant data in JSON format -->
+        <input type="hidden" id="variant-data-{{ block.settings.product.id }}" value='{{ block.settings.product.variants | json | escape }}'>
 
-        <div class="hotspot" onclick="openPopup('{{ block.settings.product.id }}')" 
-             style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;" 
+        <div class="hotspot" onclick="openPopup('{{ block.settings.product.id }}')"
+             style="top: {{ block.settings.top }}%; left: {{ block.settings.left }}%;"
              data-tooltip="{{ block.settings.product.title }}">
             <span>+</span>
         </div>
 
-        <!-- Popup -->
+        <!-- Popup for product variant selection -->
         <div id="popup-{{ block.settings.product.id }}" class="product-popup">
             <div class="popup-content">
                 <span class="close-btn" onclick="closePopup('{{ block.settings.product.id }}')">&times;</span>
@@ -123,9 +121,9 @@
             </div>
         </div>
     {% endif %}
-
 </div>
 {% endfor %}
+
 
 <style>
 /* Container for Image */
@@ -282,21 +280,20 @@ function selectColor(button, color, productId) {
 }
 
 function updateVariant(productId) {
-    let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
-    let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
-    let variants = JSON.parse(document.getElementById('variant-data-' + productId).value);
+    try {
+        const variantDataElement = document.getElementById('variant-data-' + productId);
+        let variants = JSON.parse(variantDataElement.value);
+        let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
+        let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
 
-    console.log("Selected color: " + selectedColor);
-    console.log("Selected size: " + selectedSize);
-
-    let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
-    if (matchingVariant) {
-        console.log("Matching variant ID: " + matchingVariant.id);
-        document.getElementById('variant-id-' + productId).value = matchingVariant.id;
-    } else {
-        // Log no matching variant found
-        console.log("No matching variant found.");
-        document.getElementById('variant-id-' + productId).value = '';  // Ensure no incorrect ID is submitted
+        let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
+        if (matchingVariant) {
+            document.getElementById('variant-id-' + productId).value = matchingVariant.id;
+        } else {
+            document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
+        }
+    } catch (error) {
+        console.error('Error updating variant:', error);
     }
 }
 
