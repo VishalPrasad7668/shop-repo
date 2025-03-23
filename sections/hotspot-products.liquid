@@ -184,7 +184,6 @@
     background: #333;
 }
 </style>
-<!-- Assuming we're within a Shopify or similar platform using Liquid templating -->
 {% for block in section.blocks %}
 <div class="hotspot-container">
     <img src="{{ block.settings.product.featured_image | img_url: '1024x1024' }}" alt="{{ block.settings.product.title }}" class="product-image">
@@ -252,8 +251,8 @@
                         </div>
 
                         <!-- Add to Cart Button -->
-                        <form method="post" action="/cart/add">
-                            <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}" value="{{ block.settings.product.variants.first.id }}">
+                        <form method="post" action="/cart/add" id="add-to-cart-form-{{ block.settings.product.id }}">
+                            <input type="hidden" name="id" id="variant-id-{{ block.settings.product.id }}">
                             <button type="submit" class="add-to-cart">ADD TO CART →</button>
                         </form>
                     </div>
@@ -263,7 +262,6 @@
     {% endif %}
 </div>
 {% endfor %}
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     window.openPopup = function(productId) {
