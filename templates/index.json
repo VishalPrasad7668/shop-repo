@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "banner_home_HnrcMT": {
+      "type": "banner-home",
+      "settings": {}
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -119,6 +123,7 @@
     }
   },
   "order": [
+    "banner_home_HnrcMT",
     "image_banner",
     "products_show_pNWVaD",
     "featured_collection_HENLLh",
