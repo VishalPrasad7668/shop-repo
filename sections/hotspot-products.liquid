@@ -292,13 +292,20 @@ document.addEventListener('DOMContentLoaded', function() {
             let selectedColor = document.querySelector('.color-button.active') ? document.querySelector('.color-button.active').textContent.trim().toLowerCase() : null;
             let selectedSize = document.getElementById('size-' + productId) ? document.getElementById('size-' + productId).value : null;
 
-            let matchingVariant = variants.find(variant => variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor);
+            console.log("Variants available:", variants); // Debugging line
+            console.log("Selected color:", selectedColor); // Debugging line
+            console.log("Selected size:", selectedSize); // Debugging line
+
+            let matchingVariant = variants.find(variant => {
+                return variant.option1.toLowerCase() === selectedSize && variant.option2.toLowerCase() === selectedColor;
+            });
+
             if (matchingVariant) {
                 document.getElementById('variant-id-' + productId).value = matchingVariant.id;
                 console.log("Variant ID updated to:", matchingVariant.id); // Debugging line
             } else {
                 document.getElementById('variant-id-' + productId).value = '';  // Reset if no match found
-                console.log("No matching variant found."); // Debugging line
+                console.error("No matching variant found."); // Debugging line
             }
         } catch (error) {
             console.error('Error updating variant:', error);
