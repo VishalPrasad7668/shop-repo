@@ -99,11 +99,47 @@
             "top": 44,
             "left": 62
           }
+        },
+        "hotspot_NgmVy3": {
+          "type": "hotspot",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "hotspot_FmF9Xb": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "hotspot_gyJNkF": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "top": 50,
+            "left": 50
+          }
+        },
+        "hotspot_VwaLiJ": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "top": 50,
+            "left": 50
+          }
         }
       },
       "block_order": [
         "hotspot_kKbDnh",
-        "hotspot_iWkena"
+        "hotspot_iWkena",
+        "hotspot_NgmVy3",
+        "hotspot_FmF9Xb",
+        "hotspot_gyJNkF",
+        "hotspot_VwaLiJ"
       ],
       "settings": {}
     }
