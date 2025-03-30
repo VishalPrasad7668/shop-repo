@@ -26,80 +26,75 @@
         font-size: 14px;
     }
 
-    .mobile-menu-control .log2 {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 50%;
-        transform: translateY(-50%);
+    .mobile-menu-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
 
-    /* Mobile Controls - initially hidden */
-    .mobile-menu-control {
+    .mobile-menu-control .hamburger, .mobile-menu-control .close {
+        position: absolute;
+        top: 10px;
+    }
+
+    .mobile-menu-control .hamburger {
+        left: 15px;
+    }
+
+    .mobile-menu-control .close {
+        right: 15px;
+        display: none;
+    }
+
+    .header.active .close {
+        display: block;
+    }
+
+    .header.active .hamburger {
         display: none;
     }
 
     /* Mobile-specific styles */
     @media (max-width: 600px) {
-        .mobile-menu-control {
-            display: block;
-            position: absolute;
-            left: 15px;
-            top: 10px;
-            z-index: 100;
-        }
-        .hamburger {
-            display: block;
-            cursor: pointer;
-        }
-        .close {
-            display: none; /* Hide close icon initially */
-            cursor: pointer;
-        }
-        .header.active .close {
-            display: block; /* Show close icon when menu is active */
-        }
-        .header.active .hamburger {
-            display: none; /* Hide hamburger when menu is active */
-        }
-        .header .logo, .header .center-text, .header .choose-gift {
-            display: none;
-        }
-        .header.active .logo, .header.active .center-text, .header.active .choose-gift {
-            display: block; /* Show content when menu is active */
-            text-align: center;
-            width: 100%;
-        }
         .header {
             flex-direction: column;
             padding-top: 50px;
+        }
+        .header.active .logo, .header.active .center-text, .header.active .choose-gift {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .header .logo, .header .center-text, .header .choose-gift {
+            display: none;
         }
     }
 </style>
 
 <div class="header">
-        <div class="mobile-menu-control">
-            <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
-            <div class="close">✕</div> <!-- Close Icon -->
-            <div class="log2">TISSO VISON</div>
-        </div>
-        <div class="logo">TISSO VISON</div>
-        <div class="center-text">Find the ideal gift for your loved ones.</div>
-        <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+    <div class="mobile-menu-control">
+        <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
+        <div class="close">✕</div> <!-- Close Icon -->
+        <div class="log2">TISSO VISON</div>
     </div>
+    <div class="logo">TISSO VISON</div>
+    <div class="center-text">Find the ideal gift for your loved ones.</div>
+    <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+</div>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.header');
-            const hamburger = document.querySelector('.hamburger');
-            const close = document.querySelector('.close');
+    document.addEventListener('DOMContentLoaded', function() {
+        const header = document.querySelector('.header');
+        const hamburger = document.querySelector('.hamburger');
+        const close = document.querySelector('.close');
 
-            hamburger.addEventListener('click', function() {
-                header.classList.add('active');
-            });
-
-            close.addEventListener('click', function() {
-                header.classList.remove('active');
-            });
+        hamburger.addEventListener('click', function() {
+            header.classList.add('active');
         });
-    </script>
+
+        close.addEventListener('click', function() {
+            header.classList.remove('active');
+        });
+    });
+</script>
