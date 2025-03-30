@@ -41,23 +41,13 @@
 
     /* Mobile-specific styles */
     @media (max-width: 600px) {
-           .header {
-        justify-content: center; /* Center everything in mobile view */
-        padding-top: 50px;
-        flex-direction: column;
-    }
-
-    .header.active .logo, .header.active .choose-gift, .header.active .center-text {
-        display: block;
-        text-align: center;
-        width: 100%;
-    }
-
-    .mobile-menu-control {
-        position: relative; /* Adjust based on your layout needs */
-        height: 50px; /* Or adjust based on your design */
-        margin-bottom: 20px; /* Gives space from the elements below in mobile view */
-    }
+        .mobile-menu-control {
+            display: block;
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            z-index: 100;
+        }
         .hamburger {
             display: block;
             cursor: pointer;
@@ -80,7 +70,10 @@
             text-align: center;
             width: 100%;
         }
-       
+        .header {
+            flex-direction: column;
+            padding-top: 50px;
+        }
     }
 </style>
 
