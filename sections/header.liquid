@@ -1,72 +1,80 @@
 <style>
-.header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #fff;
-            position: relative;
-        }
-        .header .logo {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .header .choose-gift {
-            background-color: #ffeb3b;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #000;
-            font-weight: bold;
-        }
-        .header .center-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-        }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #fff;
+        position: relative;
+    }
+    .header .logo {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .header .choose-gift {
+        background-color: #ffeb3b;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+    }
+    .header .center-text {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+    }
 
-        /* Mobile Controls - initially hidden */
+    .mobile-menu-control .log2 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Mobile Controls - initially hidden */
+    .mobile-menu-control {
+        display: none;
+    }
+
+    /* Mobile-specific styles */
+    @media (max-width: 600px) {
         .mobile-menu-control {
+            display: block;
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            z-index: 100;
+        }
+        .hamburger {
+            display: block;
+            cursor: pointer;
+        }
+        .close {
+            display: none; /* Hide close icon initially */
+            cursor: pointer;
+        }
+        .header.active .close {
+            display: block; /* Show close icon when menu is active */
+        }
+        .header.active .hamburger {
+            display: none; /* Hide hamburger when menu is active */
+        }
+        .header .logo, .header .center-text, .header .choose-gift {
             display: none;
         }
-
-        /* Mobile-specific styles */
-        @media (max-width: 600px) {
-            .mobile-menu-control {
-                display: block;
-                position: absolute;
-                left: 15px;
-                top: 10px;
-                z-index: 100;
-            }
-            .hamburger {
-                display: block;
-                cursor: pointer;
-            }
-            .close {
-                display: none; /* Hide close icon initially */
-                cursor: pointer;
-            }
-            .header.active .close {
-                display: block; /* Show close icon when menu is active */
-            }
-            .header.active .hamburger {
-                display: none; /* Hide hamburger when menu is active */
-            }
-            .header .logo, .header .center-text, .header .choose-gift {
-                display: none;
-            }
-            .header.active .logo, .header.active .center-text, .header.active .choose-gift {
-                display: block; /* Show content when menu is active */
-                text-align: center;
-                width: 100%;
-            }
-            .header {
-                flex-direction: column;
-                padding-top: 50px;
-            }
+        .header.active .logo, .header.active .center-text, .header.active .choose-gift {
+            display: block; /* Show content when menu is active */
+            text-align: center;
+            width: 100%;
         }
+        .header {
+            flex-direction: column;
+            padding-top: 50px;
+        }
+    }
 </style>
 
 <div class="header">
