@@ -1,7 +1,5 @@
-
-    <style>
-        /* Desktop Styles */
-        .header {
+<style>
+.header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -12,8 +10,6 @@
         .header .logo {
             font-size: 20px;
             font-weight: bold;
-            flex-grow: 1; /* Ensures the logo is centered by expanding */
-            text-align: center; /* Center the text for mobile and desktop */
         }
         .header .choose-gift {
             background-color: #ffeb3b;
@@ -30,7 +26,7 @@
             font-size: 14px;
         }
 
-        /* Hide mobile menu controls in desktop */
+        /* Mobile Controls - initially hidden */
         .mobile-menu-control {
             display: none;
         }
@@ -44,25 +40,22 @@
                 top: 10px;
                 z-index: 100;
             }
-            .hamburger, .close {
-                display: block; /* Always display the control icon */
-                cursor: pointer;
-                font-size: 24px; /* Increase the size for better mobile interaction */
-            }
             .hamburger {
-                display: block; /* Show hamburger by default */
+                display: block;
+                cursor: pointer;
             }
             .close {
                 display: none; /* Hide close icon initially */
+                cursor: pointer;
             }
             .header.active .close {
-                display: block; /* Show close when menu is active */
+                display: block; /* Show close icon when menu is active */
             }
             .header.active .hamburger {
                 display: none; /* Hide hamburger when menu is active */
             }
             .header .logo, .header .center-text, .header .choose-gift {
-                display: none; /* Initially hide the elements when menu is not active */
+                display: none;
             }
             .header.active .logo, .header.active .center-text, .header.active .choose-gift {
                 display: block; /* Show content when menu is active */
@@ -71,14 +64,12 @@
             }
             .header {
                 flex-direction: column;
-                padding-top: 50px; /* Padding to accommodate the absolute position of hamburger */
-            }
-            .logo {
-                position: static; /* Reset position for proper centering */
+                padding-top: 50px;
             }
         }
-    </style>
-    <div class="header">
+</style>
+
+<div class="header">
         <div class="mobile-menu-control">
             <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
             <div class="close">✕</div> <!-- Close Icon -->
@@ -88,7 +79,7 @@
         <a href="#" class="choose-gift">CHOOSE GIFT →</a>
     </div>
 
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.header');
             const hamburger = document.querySelector('.hamburger');
