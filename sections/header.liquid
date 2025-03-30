@@ -1,4 +1,5 @@
 <style>
+    /* Existing Desktop Styles */
     .header {
         display: flex;
         justify-content: space-between;
@@ -25,47 +26,56 @@
         transform: translateX(-50%);
         font-size: 14px;
     }
-    .hamburger, .close {
-        display: none; /* Initially hidden in desktop */
-    }
 
+    /* Mobile-specific Styles */
     @media (max-width: 600px) {
-        .hamburger, .close {
-            display: block; /* Show icons in mobile view */
-            cursor: pointer;
+        .mobile-menu-control {
+            display: flex;
             position: absolute;
             left: 15px;
         }
+        .hamburger, .close {
+            display: block;
+            cursor: pointer;
+            font-size: 24px; /* Size of the menu control icons */
+        }
+        .hamburger {
+            display: block;
+        }
         .close {
-            display: none; /* Hide close icon initially */
-        }
-        .menu {
-            display: none; /* Hide menu initially */
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .header.active .menu {
-            display: flex; /* Show menu when active */
-        }
-        .header.active .hamburger {
-            display: none; /* Hide hamburger when menu is active */
+            display: none;
         }
         .header.active .close {
-            display: block; /* Show close icon when menu is active */
+            display: block;
+        }
+        .header.active .hamburger {
+            display: none;
+        }
+        .header .logo, .header .center-text, .header .choose-gift {
+            display: none;
+        }
+        .header.active .logo, .header.active .center-text, .header.active .choose-gift {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .header {
+            flex-direction: column;
+            padding-top: 50px;
         }
     }
 </style>
 
 <div class="header">
-    <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
-    <div class="menu">
-        <div class="close">✕</div> <!-- Close Icon -->
-        <div class="logo">TISSO VISON</div>
-        <div class="center-text">Find the ideal gift for your loved ones.</div>
-        <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+    <div class="mobile-menu-control">
+        <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
+        <div class="close" style="display: none;">✕</div> <!-- Close Icon -->
     </div>
+    <div class="logo">TISSO VISON</div>
+    <div class="center-text">Find the ideal gift for your loved ones.</div>
+    <a href="#" class="choose-gift">CHOOSE GIFT →</a>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const header = document.querySelector('.header');
@@ -81,3 +91,4 @@
         });
     });
 </script>
+
