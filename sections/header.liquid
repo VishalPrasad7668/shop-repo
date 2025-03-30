@@ -27,11 +27,7 @@
     }
 
     .mobile-menu-control .log2 {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 50%;
-        transform: translateY(-50%);
+        position: relative;
     }
 
     /* Mobile Controls - initially hidden */
@@ -42,7 +38,7 @@
     /* Mobile-specific styles */
     @media (max-width: 600px) {
         .mobile-menu-control {
-            display: block;
+            display: flex;
             position: absolute;
             left: 15px;
             top: 10px;
