@@ -1,56 +1,72 @@
-<style>
+
+    <style>
         .header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            padding: 15px 20px;
             background-color: #fff;
-            position: relative;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .header .logo {
-            font-size: 20px;
+        .menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .hamburger {
+            cursor: pointer;
+            font-size: 30px;
+        }
+        .logo {
+            font-size: 24px;
             font-weight: bold;
+            margin: 8px 0;
         }
-        .header .choose-gift {
+        .center-text {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .choose-gift {
             background-color: #ffeb3b;
-            padding: 10px 15px;
+            padding: 12px 24px;
+            border: none;
             border-radius: 5px;
             text-decoration: none;
             color: #000;
             font-weight: bold;
+            cursor: pointer;
         }
-        .header .center-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-        }
-
-        /* Media query for mobile devices */
-        @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-            }
-            .header .logo {
-                font-size: 24px;
-                margin-bottom: 8px; /* Space between logo and text */
-            }
-            .header .center-text {
-                position: static;
-                transform: none;
-                font-size: 16px;
-                text-align: center;
-                margin-bottom: 12px; /* Space between text and button */
-            }
-            .header .choose-gift {
-                padding: 12px 24px;
+        @media (min-width: 601px) {
+            .hamburger {
+                display: none;
             }
         }
     </style>
+
     <div class="header">
-        <div class="logo">TISSO VISON</div>
-        <div class="center-text">Find the ideal gift for your loved ones.</div>
-        <a href="#" class="choose-gift">CHOOSE GIFT →</a>
+        <div class="hamburger">≡</div>
+        <div class="menu">
+            <div class="logo">TISSO VISON</div>
+            <div class="center-text">Find the ideal gift for your loved ones.</div>
+            <button class="choose-gift">CHOOSE GIFT →</button>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const menu = document.querySelector('.menu');
+
+            hamburger.addEventListener('click', function() {
+                // Toggle visibility of the menu
+                if (menu.style.display === 'flex') {
+                    menu.style.display = 'none';
+                } else {
+                    menu.style.display = 'flex';
+                }
+            });
+        });
+    </script>
+
