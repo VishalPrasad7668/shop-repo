@@ -1,72 +1,83 @@
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #fff;
+        position: relative;
+    }
+    .header .logo {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .header .choose-gift {
+        background-color: #ffeb3b;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+    }
+    .header .center-text {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+    }
+    .hamburger, .close {
+        display: none; /* Initially hidden in desktop */
+    }
 
-    <style>
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #fff;
-            text-align: center;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    @media (max-width: 600px) {
+        .hamburger, .close {
+            display: block; /* Show icons in mobile view */
+            cursor: pointer;
+            position: absolute;
+            left: 15px;
+        }
+        .close {
+            display: none; /* Hide close icon initially */
         }
         .menu {
-            display: none;
+            display: none; /* Hide menu initially */
             flex-direction: column;
             align-items: center;
             width: 100%;
         }
-        .hamburger {
-            cursor: pointer;
-            font-size: 30px;
+        .header.active .menu {
+            display: flex; /* Show menu when active */
         }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 8px 0;
+        .header.active .hamburger {
+            display: none; /* Hide hamburger when menu is active */
         }
-        .center-text {
-            font-size: 16px;
-            margin-bottom: 12px;
+        .header.active .close {
+            display: block; /* Show close icon when menu is active */
         }
-        .choose-gift {
-            background-color: #ffeb3b;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        @media (min-width: 601px) {
-            .hamburger {
-                display: none;
-            }
-        }
-    </style>
+    }
+</style>
 
-    <div class="header">
-        <div class="hamburger">≡</div>
-        <div class="menu">
-            <div class="logo">TISSO VISON</div>
-            <div class="center-text">Find the ideal gift for your loved ones.</div>
-            <button class="choose-gift">CHOOSE GIFT →</button>
-        </div>
+<div class="header">
+    <div class="hamburger">≡</div> <!-- Hamburger Menu Icon -->
+    <div class="menu">
+        <div class="close">✕</div> <!-- Close Icon -->
+        <div class="logo">TISSO VISON</div>
+        <div class="center-text">Find the ideal gift for your loved ones.</div>
+        <a href="#" class="choose-gift">CHOOSE GIFT →</a>
     </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const header = document.querySelector('.header');
+        const hamburger = document.querySelector('.hamburger');
+        const close = document.querySelector('.close');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.querySelector('.hamburger');
-            const menu = document.querySelector('.menu');
-
-            hamburger.addEventListener('click', function() {
-                // Toggle visibility of the menu
-                if (menu.style.display === 'flex') {
-                    menu.style.display = 'none';
-                } else {
-                    menu.style.display = 'flex';
-                }
-            });
+        hamburger.addEventListener('click', function() {
+            header.classList.add('active');
         });
-    </script>
 
+        close.addEventListener('click', function() {
+            header.classList.remove('active');
+        });
+    });
+</script>
